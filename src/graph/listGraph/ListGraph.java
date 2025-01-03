@@ -1,20 +1,17 @@
-package graph.matrixGraph;
+package graph.listGraph;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
-public class MatrixGraph {
-
+public class ListGraph {
+    static ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
     static int size;
-    static int[][] graph;
-
 
     public static void main(String[] args) {
-
         Scanner sc = new Scanner(System.in);
         System.out.print("정점 개수: ");
         size = Integer.parseInt(sc.nextLine());
-
-        graph = new int[size][size];
+        initialize();
 
         while(true){
             String input = sc.nextLine();
@@ -27,20 +24,32 @@ public class MatrixGraph {
         System.out.println(getPrint());
     }
 
+
     public static void add(int from, int to){
-        graph[from-1][to-1] = 1;
-        graph[to-1][from-1] = 1;
+        graph.get(from-1).add(to-1);
+        graph.get(to-1).add(from-1);
     }
 
     public static String getPrint(){
         StringBuilder print = new StringBuilder();
         for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                print.append(graph[i][j]).append(" ");
+            ArrayList<Integer> node = graph.get(i);
+            print.append(i+1).append("번 노드: ");
+            for (int j = 0; j < node.size(); j++) {
+                print.append(node.get(j) + 1);
+                if (j < node.size()-1) {
+                    print.append(" -> ");
+                }
             }
             print.append("\n");
         }
+
         return print.toString();
     }
 
+    public static void initialize(){
+        for (int i = 0; i < size; i++) {
+            graph.add(new ArrayList<>());
+        }
+    }
 }
